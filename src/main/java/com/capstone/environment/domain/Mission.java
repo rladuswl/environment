@@ -1,25 +1,23 @@
 package com.capstone.environment.domain;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
-// 환킴이 기록 Table
+// 미션 Table
 @Entity
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class Record {
+public class Mission {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String title; // 제목
     private String content; // 내용
     private String image; // 이미지
-
-    @ManyToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 }

@@ -21,6 +21,7 @@ public class BrandController {
 
     @GetMapping("/brand")
     public ArrayList<BrandDTO> brand() {
+
         return brandService.brand();
     }
 }

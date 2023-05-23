@@ -23,7 +23,7 @@ public class OpenApiController {
 
     @GetMapping("open-api")
     public ArrayList<String> openApi() throws UnsupportedEncodingException {
-        // 인증키 (개인이 받아와야함)
+        // 인증키
         String key = "f2BdkrESU1hXUBBIgR2HLWMRWbhF%2BAM8Pw8Y3WcX9weHTu3HskJwtu2sja1iZVojGkPPxCZOtlCxmSJHZ%2Bav0A%3D%3D";
 
         String result = "";
@@ -63,15 +63,7 @@ public class OpenApiController {
                         .item(itemList.get(i)).build();
 
                 trashRepository.save(trash);
-            };
-
-//            HashSet<String> itemSet = new HashSet<>(itemList);
-//            HashSet<String> nameSet = new HashSet<>(nameList);
-//            itemSet.toArray(new String[0]);
-//            nameSet.toArray(new String[0]);
-//
-//            System.out.println("중복 제거된 품목 리스트 : " + itemSet);
-//            System.out.println("중복 제거된 세부품목 리스트 : " + nameSet);
+            }
 
             return itemList;
 
