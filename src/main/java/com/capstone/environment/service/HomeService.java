@@ -20,7 +20,7 @@ public class HomeService {
             return "존재하지 않는 사용자입니다.";
         }
 
-        return user.getId()+"";
+        return user.getNickname()+"";
     }
 
     public String join(LoginJoinReq loginJoinReq) {

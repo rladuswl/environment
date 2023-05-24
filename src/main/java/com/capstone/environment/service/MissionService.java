@@ -3,10 +3,12 @@ package com.capstone.environment.service;
 import com.capstone.environment.domain.Mission;
 import com.capstone.environment.domain.MissionRecord;
 import com.capstone.environment.domain.User;
+import com.capstone.environment.domain.UserMission;
 import com.capstone.environment.dto.MissionRecordDTO;
 import com.capstone.environment.dto.MissionResDTO;
 import com.capstone.environment.repository.MissionRecordRepository;
 import com.capstone.environment.repository.MissionRepository;
+import com.capstone.environment.repository.UserMissionRepository;
 import com.capstone.environment.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,13 +24,17 @@ public class MissionService {
     private final MissionRepository missionRepository;
     private final UserRepository userRepository;
     private final MissionRecordRepository missionRecordRepository;
+    private final UserMissionRepository userMissionRepository;
 
     public ArrayList<MissionResDTO> mission(Long user_id) {
 
         Optional<User> user = userRepository.findById(user_id);
-        List<Mission> userFinishMission = user.get().getMissionFinishList();
+        List<UserMission> userFinishMission = user.get().getMissionFinishList();
 
         List<Mission> missionList = missionRepository.findAll();
+
+        System.out.println("missionList" + missionList);
+        System.out.println("userFinishMission" + userFinishMission);
 
         ArrayList<MissionResDTO> missionResDTOList = new ArrayList<>();
 
@@ -38,12 +44,15 @@ public class MissionService {
                     .image(m.getImage())
                     .finish("false").build();
 
-            for (Mission mm : userFinishMission) {
-                if (m == mm) {
+            for (UserMission um : userFinishMission) {
+                Optional<Mission> mi = missionRepository.findById(um.getMission().getId());
+                if (m == mi.get()) {
                     missionResDTO.setFinish("true");
-                    break;
                 }
             }
+
+            System.out.println("missionResDTO" + missionResDTO);
+
             missionResDTOList.add(missionResDTO);
         }
 
@@ -54,15 +63,16 @@ public class MissionService {
         Optional<Mission> mission = missionRepository.findById(mission_id);
 
         Optional<User> user = userRepository.findById(user_id);
-        List<Mission> userFinishMission = user.get().getMissionFinishList();
+        List<UserMission> userFinishMission = user.get().getMissionFinishList();
 
         MissionResDTO missionResDTO = MissionResDTO.builder()
                 .content(mission.get().getContent())
                 .image(mission.get().getImage())
                 .finish("false").build();
 
-        for (Mission m : userFinishMission) {
-            if (mission.get() == m) {
+        for (UserMission um : userFinishMission) {
+            Optional<Mission> m = missionRepository.findById(um.getMission().getId());
+            if (mission.get() == m.get()) {
                 missionResDTO.setFinish("true");
                 break;
             }
@@ -75,8 +85,11 @@ public class MissionService {
         Optional<User> user = userRepository.findById(user_id);
         Optional<Mission> mission = missionRepository.findById(mission_id);
 
-        List<Mission> userMissionList = user.get().getMissionFinishList();
-        userMissionList.add(mission.get());
+        UserMission userMission = UserMission.builder()
+                .mission(mission.get())
+                .user(user.get()).build();
+
+        userMissionRepository.save(userMission);
 
         return "200";
     }

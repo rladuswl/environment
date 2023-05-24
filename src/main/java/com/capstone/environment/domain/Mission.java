@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 // 미션 Table
 @Entity
@@ -20,4 +22,8 @@ public class Mission {
     private Long id;
     private String content; // 내용
     private String image; // 이미지
+
+    //@OneToMany(mappedBy = "mission", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "mission")
+    private List<UserMission> missionFinishList = new ArrayList<>();
 }

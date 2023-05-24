@@ -2,10 +2,12 @@ package com.capstone.environment.controller;
 
 import com.capstone.environment.domain.Record;
 import com.capstone.environment.dto.RecordReqDTO;
+import com.capstone.environment.dto.RecordResDTO;
 import com.capstone.environment.service.RecordService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -16,14 +18,14 @@ public class RecordController {
 
     // 기록 전체보기
     @GetMapping("/home/record/{user_id}")
-    public List<Record> records(@PathVariable Long user_id) {
+    public ArrayList<RecordResDTO> records(@PathVariable Long user_id) {
 
         return recordService.records(user_id);
     }
 
     // 기록 상세보기
     @GetMapping("/record/{record_id}")
-    public Record recordDetail(@PathVariable Long record_id) {
+    public RecordResDTO recordDetail(@PathVariable Long record_id) {
         return recordService.recordDetail(record_id);
     }
 

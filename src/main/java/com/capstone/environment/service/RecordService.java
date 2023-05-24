@@ -3,11 +3,13 @@ package com.capstone.environment.service;
 import com.capstone.environment.domain.Record;
 import com.capstone.environment.domain.User;
 import com.capstone.environment.dto.RecordReqDTO;
+import com.capstone.environment.dto.RecordResDTO;
 import com.capstone.environment.repository.RecordRepository;
 import com.capstone.environment.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -17,14 +19,29 @@ public class RecordService {
     private final RecordRepository recordRepository;
     private final UserRepository userRepository;
 
-    public List<Record> records(Long user_id) {
+    public ArrayList<RecordResDTO> records(Long user_id) {
         List<Record> recordList = recordRepository.findByUserId(user_id);
-        return recordList;
+
+        ArrayList<RecordResDTO> resDTOArrayList = new ArrayList<>();
+
+        for (Record r : recordList) {
+            RecordResDTO recordResDTO = RecordResDTO.builder()
+                    .title(r.getTitle())
+                    .content(r.getContent())
+                    .image(r.getImage()).build();
+
+            resDTOArrayList.add(recordResDTO);
+        }
+        return resDTOArrayList;
     }
 
-    public Record recordDetail(Long record_id) {
+    public RecordResDTO recordDetail(Long record_id) {
         Optional<Record> record = recordRepository.findById(record_id);
-        return record.get();
+        RecordResDTO recordResDTO = RecordResDTO.builder()
+                .title(record.get().getTitle())
+                .content(record.get().getContent())
+                .image(record.get().getImage()).build();
+        return recordResDTO;
     }
 
     public String record(Long user_id, RecordReqDTO recordReqDTO) {
