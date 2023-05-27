@@ -26,15 +26,15 @@ public class MissionService {
     private final MissionRecordRepository missionRecordRepository;
     private final UserMissionRepository userMissionRepository;
 
-    public ArrayList<MissionResDTO> mission(Long user_id) {
+    public ArrayList<MissionResDTO> mission() {
 
-        Optional<User> user = userRepository.findById(user_id);
-        List<UserMission> userFinishMission = user.get().getMissionFinishList();
+//        Optional<User> user = userRepository.findById(user_id);
+//        List<UserMission> userFinishMission = user.get().getMissionFinishList();
 
         List<Mission> missionList = missionRepository.findAll();
 
-        System.out.println("missionList" + missionList);
-        System.out.println("userFinishMission" + userFinishMission);
+//        System.out.println("missionList" + missionList);
+//        System.out.println("userFinishMission" + userFinishMission);
 
         ArrayList<MissionResDTO> missionResDTOList = new ArrayList<>();
 
@@ -44,14 +44,12 @@ public class MissionService {
                     .image(m.getImage())
                     .finish("false").build();
 
-            for (UserMission um : userFinishMission) {
-                Optional<Mission> mi = missionRepository.findById(um.getMission().getId());
-                if (m == mi.get()) {
-                    missionResDTO.setFinish("true");
-                }
-            }
-
-            System.out.println("missionResDTO" + missionResDTO);
+//            for (UserMission um : userFinishMission) {
+//                Optional<Mission> mi = missionRepository.findById(um.getMission().getId());
+//                if (m == mi.get()) {
+//                    missionResDTO.setFinish("true");
+//                }
+//            }
 
             missionResDTOList.add(missionResDTO);
         }

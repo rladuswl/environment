@@ -16,10 +16,10 @@ public class MissionController {
 
     private final MissionService missionService;
 
-    @GetMapping("/home/mission/{user_id}")
-    public ArrayList<MissionResDTO> mission(@PathVariable Long user_id) {
+    @GetMapping("/home/mission")
+    public ArrayList<MissionResDTO> mission() {
 
-        return missionService.mission(user_id);
+        return missionService.mission();
     }
 
     @GetMapping("/mission/{user_id}/{mission_id}")
